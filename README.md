@@ -4,7 +4,9 @@
 
 An Ansible Role that installs Logstash on RedHat/CentOS Debian/Ubuntu.
 
-Note that this role installs a syslog grok pattern by default; if you want to add more filters, please add them inside the `/etc/logstash/conf.d/` directory. As an example, you could create a file named `13-myapp.conf` with the appropriate grok filter and restart logstash to start using it. Test your grok regex using the [Grok Debugger](http://grokdebug.herokuapp.com/).
+Note that this role installs a syslog grok pattern by default; if you want to add more filters, see the documentation for `logstash_configuration_files` and `logstash_filter_files`.
+
+As an example, you could create a file named `13-myapp.conf` with the appropriate grok filter and restart logstash to start using it. Test your grok regex using the [Grok Debugger](http://grokdebug.herokuapp.com/).
 
 ## Requirements
 
@@ -22,6 +24,23 @@ The port over which Logstash will listen for beats.
       - http://localhost:9200
 
 The hosts where Logstash should ship logs to Elasticsearch.
+
+    logstash_version: 2.3
+
+Default major version of Logstash to install.
+
+    logstash_configuration_files:
+      - 01-lumberjack-input.conf
+      - 30-lumberjack-output.conf
+
+    logstash_filter_files:
+      - 10-syslog.conf
+      - 11-nginx.conf
+      - 12-apache.conf
+      - 14-solr.conf
+      - 15-drupal.conf
+
+List of inputs/outputs (configuration files) and filter files to install. By default the lumberjack input/output and variable filter files are installed. You can specify your own configuration files by placing input/output files in your own `templates` directory, and filters in your own `files` directory. Then create your own list in the `vars/main.yml` directory, and `vars_files` in your wrapper role, and include this role to deploy Logstash with your own configuration. See `Example Playbook` below.
 
     logstash_dir: /usr/share/logstash
 
@@ -65,6 +84,9 @@ If you are seeing high CPU usage from one of the `logstash` processes, and you'r
 ## Example Playbook
 
     - hosts: search
+      vars_files:
+        - vars/main.yml
+
       roles:
         - geerlingguy.elasticsearch
         - geerlingguy.logstash
