@@ -23,7 +23,7 @@ The port over which Logstash will listen for beats.
     logstash_elasticsearch_hosts:
       - http://localhost:9200
 
-The hosts where Logstash should ship logs to Elasticsearch.
+The hosts where Logstash should ship logs to Elasticsearch. When Elasticsearch requires basic authentication you **must** set the `logstash_elasticsearch_user` and `logstash_elasticsearch_password` when using this role.
 
     logstash_version: 2.3
 
