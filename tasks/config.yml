@@ -8,7 +8,6 @@
     mode: 0644
   with_items: "{{ logstash_configuration_files | default([]) }}"
   notify: restart logstash
-<<<<<<< HEAD
 
 - name: Create Logstash filters.
   copy:
@@ -36,5 +35,3 @@
     state: absent
   when: not logstash_monitor_local_syslog
   notify: restart logstash
-=======
->>>>>>> es-basic-auth
