@@ -6,7 +6,6 @@ output {
     password => "{{ logstash_elasticsearch_password }}"
 {% endif %}
     index => "{{ logstash_elasticsearch_index }}"
-    manage_template => "{{ logstash_elasticsearch_manage_template | to_json }}"
-    document_type => "%{[@metadata][type]}"
+    manage_template => {{ logstash_elasticsearch_manage_template | to_json }}
   }
 }
